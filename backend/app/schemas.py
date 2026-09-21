@@ -1,0 +1,150 @@
+"""Pydantic data schemas for Legal Metrology Package Compliance System."""
+from typing import Optional, List, Dict, Any
+from enum import Enum
+from pydantic import BaseModel, Field, ConfigDict
+
+
+class ComplianceStatus(str, Enum):
+    PASS = "PASS"
+    FAIL = "FAIL"
+    REVIEW = "REVIEW"
+    NA = "NA"
+
+
+class OverallStatus(str, Enum):
+    COMPLIANT = "COMPLIANT"
+    NON_COMPLIANT = "NON_COMPLIANT"
+    NEEDS_REVIEW = "NEEDS_REVIEW"
+
+
+class ManufacturerInfo(BaseModel):
+    role: Optional[str] = Field(default=None, description="Role e.g., 'Manufactured by', 'Packed by', 'Imported by'")
+    name: Optional[str] = Field(default=None, description="Company / Business entity name")
+    address: Optional[str] = Field(default=None, description="Complete registered/operational address")
+
+
+class QuantityInfo(BaseModel):
+    value: Optional[str] = Field(default=None, description="Numerical net quantity e.g., '200', '1.5'")
+    unit: Optional[str] = Field(default=None, description="Standardized SI unit e.g., 'g', 'kg', 'ml', 'l', 'N'")
+    raw_text: Optional[str] = Field(default=None, description="Verbatim text from label e.g., 'Net Wt. 200g'")
+
+
+class MRPInfo(BaseModel):
+    value: Optional[str] = Field(default=None, description="Numerical price value e.g., '80.00' or '80'")
+    currency: str = Field(default="INR", description="Currency symbol or code")
+    inclusive_of_taxes: Optional[bool] = Field(default=None, description="Whether tax inclusive phrase is present")
+    raw_text: Optional[str] = Field(default=None, description="Verbatim text from label e.g., 'MRP Rs. 80.00 (Incl. of all taxes)'")
+
+
+class DateInfo(BaseModel):
+    manufacture_date: Optional[str] = Field(default=None, description="Date or month/year of manufacture")
+    packing_date: Optional[str] = Field(default=None, description="Date or month/year of packing")
+    best_before: Optional[str] = Field(default=None, description="Best before duration e.g., '6 months from pkd'")
+    use_by: Optional[str] = Field(default=None, description="Expiry / use-by date")
+
+
+class ConsumerCareInfo(BaseModel):
+    phone: Optional[str] = Field(default=None, description="Toll-free / customer care phone number")
+    email: Optional[str] = Field(default=None, description="Customer care email address")
+    address: Optional[str] = Field(default=None, description="Consumer care postal address or website")
+
+
+class EvidenceItem(BaseModel):
+    field: str
+    value: Optional[str] = None
+    evidence: str
+
+
+class ProductData(BaseModel):
+    """Structured container extracted by AI from package label."""
+    product_name: Optional[str] = Field(default=None, description="Commercial / advertised product name")
+    brand_name: Optional[str] = Field(default=None, description="Brand name / trademark")
+    generic_name: Optional[str] = Field(default=None, description="Common / generic name of the commodity")
+    category: Optional[str] = Field(default="Other", description="Product category e.g., Food, Cosmetics, Household, Electronics")
+    manufacturer: Optional[ManufacturerInfo] = Field(default_factory=ManufacturerInfo)
+    quantity: Optional[QuantityInfo] = Field(default_factory=QuantityInfo)
+    mrp: Optional[MRPInfo] = Field(default_factory=MRPInfo)
+    unit_sale_price: Optional[str] = Field(default=None, description="Unit Sale Price e.g. ₹0.40/g under 2021 Rules")
+    dates: Optional[DateInfo] = Field(default_factory=DateInfo)
+    consumer_care: Optional[ConsumerCareInfo] = Field(default_factory=ConsumerCareInfo)
+    country_of_origin: Optional[str] = Field(default=None, description="Country of manufacture / origin")
+    fssai_license: Optional[str] = Field(default=None, description="14-digit FSSAI License Number")
+    package_type: Optional[str] = Field(default="normal", description="Package type e.g., normal, combo, wholesale")
+    image_url: Optional[str] = Field(default=None, description="Image Data URL / Base64 image payload")
+    raw_evidence: List[EvidenceItem] = Field(default_factory=list, description="Verbatim evidence snippets for auditability")
+
+
+class RuleResult(BaseModel):
+    """Result of an individual deterministic compliance check."""
+    rule_id: str
+    rule_name: str
+    field: str
+    status: ComplianceStatus
+    detected_value: Optional[str] = None
+    evidence: Optional[str] = None
+    reason: str
+    recommendation: Optional[str] = None
+
+
+class InspectionSummary(BaseModel):
+    pass_count: int = Field(alias="pass", default=0)
+    fail_count: int = Field(alias="fail", default=0)
+    review_count: int = Field(alias="review", default=0)
+    na_count: int = Field(alias="na", default=0)
+
+    model_config = ConfigDict(populate_by_name=True)
+
+
+class ImageQualityInfo(BaseModel):
+    width: int
+    height: int
+    format: str
+    file_size_kb: float
+    quality_label: str
+    text_visibility: str
+
+
+class InspectionResponse(BaseModel):
+    """Full inspection response payload."""
+    inspection_id: str
+    status: OverallStatus
+    score: int = Field(description="Prototype Compliance Score (0-100)")
+    category: str
+    product: ProductData
+    checks: List[RuleResult]
+    summary: InspectionSummary
+    image_metadata: Optional[ImageQualityInfo] = None
+    created_at: str
+    is_demo: bool = False
+    officer_id: Optional[str] = None
+    officer_name: Optional[str] = None
+
+
+class CopilotRequest(BaseModel):
+    question: str
+    context_inspection_id: Optional[str] = None
+
+
+class CopilotResponse(BaseModel):
+    answer: str
+    relevant_rules: List[str] = Field(default_factory=list)
+    suggested_actions: List[str] = Field(default_factory=list)
+
+
+class LegalNoticeRequest(BaseModel):
+    inspection_id: str
+    officer_name: Optional[str] = "Enforcement Officer LM-402"
+    jurisdiction: Optional[str] = "Central Legal Metrology Division, New Delhi"
+
+
+class LegalNoticeResponse(BaseModel):
+    notice_id: str
+    form_title: str
+    manufacturer_name: str
+    manufacturer_address: str
+    violations: List[Dict[str, str]]
+    statutory_clause: str
+    compliance_deadline_days: int
+    notice_text: str
+    created_at: str
+

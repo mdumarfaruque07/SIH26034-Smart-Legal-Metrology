@@ -1,0 +1,29 @@
+{
+  "LM-DEMO-2026": {
+    "officer_id": "LM-DEMO-2026",
+    "name": "Demo Inspection Officer",
+    "department": "Legal Metrology Department (Demo Session)",
+    "password_hash": "43c27b4e263fa191a6a7ec198cd4d5b47d17413c49d77dc533a01720707e3202",
+    "role": "demo",
+    "status": "approved",
+    "created_at": "2026-01-01T00:00:00"
+  },
+  "LM-INSP-4092": {
+    "officer_id": "LM-INSP-4092",
+    "name": "Inspector A. Sharma",
+    "department": "Legal Metrology Enforcement Wing",
+    "password_hash": "0153ba1d95102fa5ce42e02c516e13bb10859b5207eed5f5312e5e0fb9c326fc",
+    "role": "inspector",
+    "status": "approved",
+    "created_at": "2026-01-01T00:00:00"
+  },
+  "LM-ADMIN-001": {
+    "officer_id": "LM-ADMIN-001",
+    "name": "Admin Controller",
+    "department": "Central Legal Metrology Division",
+    "password_hash": "f51739fd6372274f543ab95b3aebfa03c824f976392bf40bb8cdca23b164fc22",
+    "role": "admin",
+    "status": "approved",
+    "created_at": "2026-01-01T00:00:00"
+  }
+}

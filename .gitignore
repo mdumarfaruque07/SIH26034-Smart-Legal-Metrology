@@ -1,0 +1,61 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+venv/
+ENV/
+
+# Secrets & Environment Variables
+.env
+.env.*
+backend/.env
+backend/.env.*
+*.env
+*.env.txt
+!.env.example
+!backend/.env.example
+
+# Databases & Uploads
+*.db
+*.sqlite
+*.sqlite3
+backend/app/data/*.db
+backend/app/data/uploads/*
+!backend/app/data/uploads/.gitkeep
+
+# Caches & Test artifacts
+.pytest_cache/
+backend/.pytest_cache/
+backend/.pytest_cache_new/
+
+# Node / Frontend
+node_modules/
+frontend/dist/
+frontend/.vite/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# IDE & OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
