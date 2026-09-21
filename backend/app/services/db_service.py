@@ -60,6 +60,11 @@ class DatabaseService:
             mysql_pass = parsed.password or mysql_pass
             mysql_db = parsed.path.lstrip("/") or mysql_db
 
+        ssl_args = {}
+        use_ssl = "aivencloud" in mysql_host or os.getenv("MYSQL_SSL", "").strip().lower() in ["true", "1", "yes"]
+        if use_ssl:
+            ssl_args = {"ssl": {"check_hostname": False}}
+
         self.mysql_config = {
             "host": mysql_host,
             "port": mysql_port,
@@ -69,6 +74,7 @@ class DatabaseService:
             "cursorclass": None,  # Will be set with pymysql.cursors.DictCursor
             "autocommit": True,
             "charset": "utf8mb4",
+            **ssl_args,
         }
 
         try:
@@ -83,6 +89,7 @@ class DatabaseService:
                 password=mysql_pass,
                 autocommit=True,
                 charset="utf8mb4",
+                **ssl_args,
             )
             with server_conn.cursor() as cur:
                 cur.execute(f"CREATE DATABASE IF NOT EXISTS `{mysql_db}` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci")
