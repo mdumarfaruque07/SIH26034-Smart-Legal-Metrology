@@ -128,7 +128,7 @@ All compliance verdicts (`PASS`, `FAIL`, `REVIEW`, `NOT_APPLICABLE`) are determi
 
 ### Step 1: Clone Repository
 ```bash
-git clone https://github.com/your-username/SIH26034-Smart-Legal-Metrology.git
+git clone https://github.com/mdumarfaruque07/SIH26034-Smart-Legal-Metrology.git
 cd SIH26034-Smart-Legal-Metrology
 ```
 
@@ -184,6 +184,30 @@ npm install
 npm run dev
 ```
 * Access Web Application: `http://localhost:5173`
+
+---
+
+## 🌐 Cloud Production Deployment (100% Free)
+
+The platform is architected for seamless multi-cloud production deployment across modern serverless/PaaS providers:
+
+### 1. Database: Aiven.io (Managed Cloud MySQL 8.0+)
+- Deploy a free, managed MySQL database on [Aiven.io](https://aiven.io/).
+- Provides dedicated SSL/TLS encrypted connection on port 15000+ with automated backups.
+
+### 2. Backend API: Render.com (FastAPI Web Service)
+- **Root Directory:** `backend`
+- **Build Command:** `pip install -r requirements.txt`
+- **Start Command:** `uvicorn app.main:app --host 0.0.0.0 --port $PORT`
+- **Environment Variables:** `GEMINI_API_KEY`, `GEMINI_MODEL`, `USE_MYSQL=true`, `MYSQL_HOST`, `MYSQL_PORT`, `MYSQL_USER`, `MYSQL_PASSWORD`, `MYSQL_DATABASE=legal_metrology`, `CORS_ORIGINS=*`, `ALLOW_SQLITE_FALLBACK=true`
+
+### 3. Frontend UI: Vercel.com (React + Vite SPA)
+- **Root Directory:** `frontend`
+- **Framework Preset:** `Vite`
+- **Build Command:** `npm run build`
+- **Output Directory:** `dist`
+- **Environment Variable:** `VITE_API_URL=https://<your-render-backend-url>.onrender.com`
+- Client-side routing is handled out-of-the-box via `frontend/vercel.json`.
 
 ---
 
