@@ -3,11 +3,21 @@
 > **SIH26034** — Automated Package Label Compliance Inspection & Statutory Enforcement Platform under the Legal Metrology Act, 2009 and Legal Metrology (Packaged Commodities) Rules, 2011.
 
 [![Status](https://img.shields.io/badge/Status-Active%20Production-emerald)](/)
+[![Live App](https://img.shields.io/badge/Live%20Demo-Vercel-success)](https://sih-26034-smart-legal-metrology.vercel.app)
+[![API Status](https://img.shields.io/badge/API-Render%20Live-009688)](https://sih26034-smart-legal-metrology.onrender.com/api/health)
 [![AI](https://img.shields.io/badge/AI-Google%20Gemini%20Vision-blue)](/)
-[![Backend](https://img.shields.io/badge/Backend-FastAPI%20(Python%203.10+)-009688)](/)
-[![Database](https://img.shields.io/badge/Database-MySQL%208.0+%20(ACID)-orange)](/)
-[![Frontend](https://img.shields.io/badge/Frontend-React%2018%20+%20Vite-61DAFB)](/)
-[![License](https://img.shields.io/badge/License-Government%20of%20India%20--%20SIH26034-indigo)](/)
+[![Database](https://img.shields.io/badge/Database-Aiven%20Cloud%20MySQL%20(ACID)-orange)](/)
+
+---
+
+### 🌐 Live Production Deployment
+| Service | Live URL | Status |
+|---|---|---|
+| 🖥️ **Web Application (Frontend)** | [**sih-26034-smart-legal-metrology.vercel.app**](https://sih-26034-smart-legal-metrology.vercel.app) | ![Live](https://img.shields.io/badge/Online-Live-brightgreen) |
+| ⚡ **Backend REST API** | [**sih26034-smart-legal-metrology.onrender.com**](https://sih26034-smart-legal-metrology.onrender.com) | ![Healthy](https://img.shields.io/badge/API-Healthy-009688) |
+| 📖 **Interactive Swagger Docs** | [**API Documentation (/docs)**](https://sih26034-smart-legal-metrology.onrender.com/docs) | ![Swagger](https://img.shields.io/badge/Docs-Swagger%20UI-blue) |
+
+> ⚡ **Quick Test:** Open the live link, click **Login**, and use **Officer ID:** `LM-DEMO-2026` / **Password:** `demo2026` to evaluate compliance.
 
 ---
 
